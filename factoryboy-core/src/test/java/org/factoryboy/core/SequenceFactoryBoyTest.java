@@ -8,9 +8,7 @@ import static org.factoryboy.core.FactoryBoy.format;
 import static org.junit.Assert.assertEquals;
 
 /**
- * User: tanglq
- * Date: 13-7-24
- * Time: 上午12:07
+ * 变值测试.
  */
 public class SequenceFactoryBoyTest {
 

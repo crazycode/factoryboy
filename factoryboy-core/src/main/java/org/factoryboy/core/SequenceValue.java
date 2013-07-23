@@ -1,9 +1,7 @@
 package org.factoryboy.core;
 
 /**
- * User: tanglq
- * Date: 13-7-23
- * Time: 下午11:30
+ * 提供变值对象的操作，实现方式有点丑陋。
  */
 public abstract class SequenceValue<T> {
 

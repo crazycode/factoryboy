@@ -7,9 +7,7 @@ import org.factoryboy.core.Mold;
 import java.math.BigDecimal;
 
 /**
- * User: tanglq
- * Date: 13-7-23
- * Time: 下午4:26
+ * Foo工厂.
  */
 public class FooFactory extends FactoryBoy<Foo> {
     @Override

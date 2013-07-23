@@ -1,9 +1,8 @@
 package org.factoryboy.core;
 
 /**
- * User: tanglq
- * Date: 13-7-23
- * Time: 下午11:01
+ * 模具，用于修改对象的部分数值.
+ * @param <T>
  */
 public interface Mold<T> {
     public void build(T t);

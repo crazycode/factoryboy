@@ -9,9 +9,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 
 /**
- * User: tanglq
- * Date: 13-7-23
- * Time: 下午4:20
+ * 基本测试.
  */
 public class FactoryBoyTest {
 

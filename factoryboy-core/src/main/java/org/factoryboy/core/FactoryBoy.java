@@ -6,6 +6,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * 主工厂基类.
+ * @param <T>
+ */
 public abstract class FactoryBoy<T> {
 
     protected List<Mold<T>> _moldList = new ArrayList<Mold<T>>();
