@@ -5,11 +5,11 @@ package org.factoryboy.core;
  * Date: 13-7-23
  * Time: 下午11:30
  */
-public abstract class SeqValue<T> {
+public abstract class SequenceValue<T> {
 
     FactoryBoy<?> _factoryBoy;
 
-    public SeqValue<T> setFactoryBoy(FactoryBoy value) {
+    public SequenceValue<T> setFactoryBoy(FactoryBoy value) {
         _factoryBoy = value;
         return this;
     }
@@ -21,5 +21,5 @@ public abstract class SeqValue<T> {
         return _factoryBoy;
     }
 
-    public abstract T value();
+    public abstract T get();
 }

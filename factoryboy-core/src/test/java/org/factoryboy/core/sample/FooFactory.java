@@ -1,6 +1,6 @@
 package org.factoryboy.core.sample;
 
-import org.factoryboy.core.SeqValue;
+import org.factoryboy.core.SequenceValue;
 import org.factoryboy.core.FactoryBoy;
 import org.factoryboy.core.Mold;
 
@@ -28,12 +28,12 @@ public class FooFactory extends FactoryBoy<Foo> {
         });
     }
 
-    public FooFactory name(final SeqValue<String> seqValue) {
+    public FooFactory name(final SequenceValue<String> seqValue) {
         seqValue.setFactoryBoy(this);
         return install(this, new Mold<Foo>() {
             @Override
             public void build(Foo foo) {
-                foo.setName(seqValue.value());
+                foo.setName(seqValue.get());
             }
         });
     }

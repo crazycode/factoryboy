@@ -1,36 +1,40 @@
 package org.factoryboy.core;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 public abstract class FactoryBoy<T> {
-
-    protected static Map<Class<?>, Integer> modelSequenceMap = new HashMap<Class<?>, Integer>();
 
     protected List<Mold<T>> _moldList = new ArrayList<Mold<T>>();
 
     public abstract T defaultObject();
 
     protected T _object;
-    public Integer sequence;
+    private Integer sequence;
 
     private T newObject() {
         if (_object == null) {
             this._object = defaultObject();
-            this.sequence = nextSequence(this._object.getClass());
+            this.sequence = nextSequence(this.getClass());
         }
         return _object;
     }
 
-    public static synchronized int nextSequence(Class<?> clazz) {
-        Integer seq = modelSequenceMap.get(clazz);
-        if (seq == null) {
-            seq = 0;
+    public synchronized Integer currentSequenct() {
+        if (sequence == null) {
+            return nextSequence(this.getClass());
         }
-        modelSequenceMap.put(clazz, ++seq);
-        return seq;
+        return sequence;
+    }
+
+    public synchronized Integer nextSequence(Class<?> clazz) {
+        if (sequence == null) {
+            sequence = 0;
+        }
+        return sequence++;
     }
 
     /**
@@ -52,6 +56,14 @@ public abstract class FactoryBoy<T> {
         return list;
     }
 
+    public Set<T> buildSet(int number) {
+        Set<T> set = new HashSet<T>();
+        for (int i = 0; i < number; i++) {
+            set.add(build());
+        }
+        return set;
+    }
+
     /**
      * 安装模具.
      */
@@ -61,20 +73,66 @@ public abstract class FactoryBoy<T> {
     }
 
     // ------------------ 生成动态值的static import method ---------------------------------
-    public static SeqValue<String> format(final String format) {
-        return new SeqValue<String>() {
+    public static SequenceValue<String> format(final String format) {
+        return new SequenceValue<String>() {
             @Override
-            public String value() {
-                return String.format(format, getFactoryBoy().sequence);
+            public String get() {
+                return String.format(format, getFactoryBoy().currentSequenct());
             }
         };
     }
 
-    public static SeqValue<Integer> increaseBase(final Integer baseValue) {
-        return new SeqValue<Integer>() {
+    public static SequenceValue<Integer> increaseFrom(final Integer baseValue) {
+        return new SequenceValue<Integer>() {
             @Override
-            public Integer value() {
-                return baseValue + getFactoryBoy().sequence;
+            public Integer get() {
+                return baseValue + getFactoryBoy().currentSequenct();
+            }
+        };
+    }
+
+    public static SequenceValue<Integer> decreaseFrom(final Integer baseValue) {
+        return new SequenceValue<Integer>() {
+            @Override
+            public Integer get() {
+                return baseValue - getFactoryBoy().currentSequenct();
+            }
+        };
+    }
+
+
+    public static SequenceValue<Long> increaseFrom(final Long baseValue) {
+        return new SequenceValue<Long>() {
+            @Override
+            public Long get() {
+                return baseValue + getFactoryBoy().currentSequenct();
+            }
+        };
+    }
+
+    public static SequenceValue<Long> decreaseFrom(final Long baseValue) {
+        return new SequenceValue<Long>() {
+            @Override
+            public Long get() {
+                return baseValue - getFactoryBoy().currentSequenct();
+            }
+        };
+    }
+
+    public static SequenceValue<BigDecimal> increaseFrom(final BigDecimal baseValue) {
+        return new SequenceValue<BigDecimal>() {
+            @Override
+            public BigDecimal get() {
+                return baseValue.add(new BigDecimal(getFactoryBoy().currentSequenct()));
+            }
+        };
+    }
+
+    public static SequenceValue<BigDecimal> decreaseFrom(final BigDecimal baseValue) {
+        return new SequenceValue<BigDecimal>() {
+            @Override
+            public BigDecimal get() {
+                return baseValue.subtract(new BigDecimal(getFactoryBoy().currentSequenct()));
             }
         };
     }
