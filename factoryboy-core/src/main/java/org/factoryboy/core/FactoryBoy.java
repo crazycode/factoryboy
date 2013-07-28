@@ -60,6 +60,32 @@ public abstract class FactoryBoy<T> {
         return list;
     }
 
+    public T create() {
+        T t = build();
+        // TODO: 执行数据库插入操作
+        return t;
+    }
+
+    public List<T> create(int number) {
+        List<T> list = new ArrayList<T>();
+        for (int i = 0; i < number; i++) {
+            list.add(create());
+        }
+        return list;
+    }
+
+    /**
+     * 返回最后一个值对象.
+     * @return
+     */
+    public T last() {
+        return null; //TODO
+    }
+
+    public T lastOrBuild() {
+        return null; //TODO
+    }
+
     public Set<T> buildSet(int number) {
         Set<T> set = new HashSet<T>();
         for (int i = 0; i < number; i++) {
@@ -140,4 +166,19 @@ public abstract class FactoryBoy<T> {
             }
         };
     }
+
+    public <V extends SequenceValue<?>> V withThis(V seqValue) {
+        seqValue.setFactoryBoy(this);
+        return seqValue;
+    }
+
+
+    // 考虑把所有static方法放一个单独类，包括DateHelper
+    // 使用 Mockito.doThrow(new Exception()).when(instance).methodName(); 看上去也不能级联，不优雅
+
+    public static String contentFrom(String fileName) {
+        // TODO
+        return null;
+    }
+
 }

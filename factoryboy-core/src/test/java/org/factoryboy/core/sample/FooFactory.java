@@ -14,6 +14,7 @@ public class FooFactory extends FactoryBoy<Foo> {
     public Foo defaultObject() {
         Foo foo = new Foo();
         foo.setAmount(BigDecimal.ONE);
+        foo.setAge(3);
         return foo;
     }
 
@@ -27,11 +28,19 @@ public class FooFactory extends FactoryBoy<Foo> {
     }
 
     public FooFactory name(final SequenceValue<String> seqValue) {
-        seqValue.setFactoryBoy(this);
         return install(this, new Mold<Foo>() {
             @Override
             public void build(Foo foo) {
-                foo.setName(seqValue.get());
+                foo.setName(withThis(seqValue).get());
+            }
+        });
+    }
+
+    public FooFactory age(final Integer age) {
+        return install(this, new Mold<Foo>() {
+            @Override
+            public void build(Foo foo) {
+                foo.setAge(age);
             }
         });
     }
