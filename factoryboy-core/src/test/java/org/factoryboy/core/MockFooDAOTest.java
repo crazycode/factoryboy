@@ -37,10 +37,10 @@ public class MockFooDAOTest {
 
     @Test
     public void testFindAll() throws Exception {
-        when(fooDAO.findAll()).thenReturn(fooFactory.name("工号 %d").build(30));
+        when(fooDAO.findAll()).thenReturn(fooFactory.name("第%d号员工").build(30));
         List<Foo> fooList = fooDAO.findAll();
         assertThat(fooList).isNotEmpty().hasSize(30);
-        assertThat(fooList.get(0).getName()).startsWith("工号");
+        assertThat(fooList.get(0).getName()).startsWith("第").endsWith("号员工");
         assertThat(fooList.get(3).getAge()).isEqualTo(30);
     }
 
