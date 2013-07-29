@@ -50,7 +50,7 @@ public class MockFooDAOTest {
         Foo zxx = fooDAO.findById(9527L);
         assertThat(zxx.getName()).isEqualTo("周星星");
         assertThat(zxx.getAge()).isEqualTo(51);
-        verify(fooDAO, times(1)).findById(eq(9527L));
+        verify(fooDAO, times(1)).findById(9527L);
         verify(fooDAO, never()).findById(eq(1L));
     }
 }
