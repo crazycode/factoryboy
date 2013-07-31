@@ -1,5 +1,7 @@
 package org.factoryboy.core;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -97,9 +99,28 @@ public abstract class FactoryBoy<T> {
     /**
      * 安装模具.
      */
-    public <MF extends FactoryBoy<T>> MF install(MF modelFactory, Mold<T> mold) {
+    public <MF extends FactoryBoy<T>> MF add(MF modelFactory, Mold<T> mold) {
         modelFactory._moldList.add(mold);
         return modelFactory;
+    }
+
+    // ------------------ 动态设置属性 ----------------------
+    public <MF extends FactoryBoy<T>, V> MF set(final String property, final SequenceValue<V> sequenceValue) {
+        return (MF)add(this, new Mold<T>() {
+            @Override
+            public void build(T t) {
+                setObjectProperty(t, property, sequenceValue);
+            }
+        });
+    }
+
+    public <MF extends FactoryBoy<T>, V> MF set(final String property, final V value) {
+        return (MF)add(this, new Mold<T>() {
+            @Override
+            public void build(T t) {
+                setObjectProperty(t, property, value);
+            }
+        });
     }
 
     // ------------------ 生成动态值的static import method ---------------------------------
@@ -179,6 +200,46 @@ public abstract class FactoryBoy<T> {
     public static String contentFrom(String fileName) {
         // TODO
         return null;
+    }
+
+    /**
+     * java反射bean的set方法
+     *
+     * @param objectClass
+     * @param fieldName
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public static Method getSetMethod(Class objectClass, String fieldName) {
+        try {
+            Class[] parameterTypes = new Class[1];
+            Field field = objectClass.getDeclaredField(fieldName);
+            parameterTypes[0] = field.getType();
+            StringBuilder sb = new StringBuilder();
+            sb.append("set");
+            sb.append(fieldName.substring(0, 1).toUpperCase());
+            sb.append(fieldName.substring(1));
+            return objectClass.getMethod(sb.toString(), parameterTypes);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 执行set方法
+     *
+     * @param o 执行对象
+     * @param fieldName 属性
+     * @param value 值
+     */
+    public static void setObjectProperty(Object o, String fieldName, Object value) {
+        Method method = getSetMethod(o.getClass(), fieldName);
+        try {
+            method.invoke(o, new Object[] { value });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

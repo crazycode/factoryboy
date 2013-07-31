@@ -19,7 +19,7 @@ public class FooFactory extends FactoryBoy<Foo> {
     }
 
     public FooFactory name(final String value) {
-        return install(this, new Mold<Foo>() {
+        return add(this, new Mold<Foo>() {
             @Override
             public void build(Foo foo) {
                 foo.setName(value);
@@ -28,7 +28,7 @@ public class FooFactory extends FactoryBoy<Foo> {
     }
 
     public FooFactory name(final SequenceValue<String> seqValue) {
-        return install(this, new Mold<Foo>() {
+        return add(this, new Mold<Foo>() {
             @Override
             public void build(Foo foo) {
                 foo.setName(withThis(seqValue).get());
@@ -37,7 +37,7 @@ public class FooFactory extends FactoryBoy<Foo> {
     }
 
     public FooFactory age(final Integer age) {
-        return install(this, new Mold<Foo>() {
+        return add(this, new Mold<Foo>() {
             @Override
             public void build(Foo foo) {
                 foo.setAge(age);
