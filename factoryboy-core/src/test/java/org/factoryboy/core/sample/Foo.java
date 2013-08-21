@@ -57,4 +57,16 @@ public class Foo {
     public void setCent(Long cent) {
         this.cent = cent;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Foo{");
+        sb.append("name='").append(name).append('\'');
+        sb.append(", amount=").append(amount);
+        sb.append(", createdAt=").append(createdAt);
+        sb.append(", age=").append(age);
+        sb.append(", cent=").append(cent);
+        sb.append('}');
+        return sb.toString();
+    }
 }
