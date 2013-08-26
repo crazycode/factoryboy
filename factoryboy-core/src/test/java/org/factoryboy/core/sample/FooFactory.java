@@ -14,7 +14,7 @@ public class FooFactory extends FactoryBoy<Foo> {
     public Foo defaultObject() {
         Foo foo = new Foo();
         foo.setAmount(BigDecimal.ONE);
-        foo.setAge(3 + nextSequence());
+        foo.setAge(3 + currentSequenct());
         return foo;
     }
 

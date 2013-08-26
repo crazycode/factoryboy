@@ -25,8 +25,8 @@ public abstract class FactoryBoy<T> {
     private Integer sequence;
 
     private T newObject() {
-        this._object = defaultObject();
         this.sequence = nextSequence();
+        this._object = defaultObject();
         return _object;
     }
 
@@ -41,7 +41,7 @@ public abstract class FactoryBoy<T> {
         if (sequence == null) {
             sequence = 0;
         }
-        return sequence++;
+        return ++sequence;
     }
 
     private T _build() {
